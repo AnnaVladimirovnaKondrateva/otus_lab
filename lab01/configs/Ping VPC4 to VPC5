@@ -1,0 +1,8 @@
+VPCS> ping 192.168.4.1
+
+84 bytes from 192.168.4.1 icmp_seq=1 ttl=255 time=0.448 ms
+84 bytes from 192.168.4.1 icmp_seq=2 ttl=255 time=0.447 ms
+84 bytes from 192.168.4.1 icmp_seq=3 ttl=255 time=0.417 ms
+84 bytes from 192.168.4.1 icmp_seq=4 ttl=255 time=0.446 ms
+84 bytes from 192.168.4.1 icmp_seq=5 ttl=255 time=0.460 ms
+
