@@ -1,4 +1,0 @@
-trace to 192.168.3.3, 8 hops max, press Ctrl+C to stop
- 1   192.168.4.1   0.404 ms  0.352 ms  0.335 ms
- 2   *192.168.3.3   1.610 ms (ICMP type:3, code:3, Destination port unreachable)
-
