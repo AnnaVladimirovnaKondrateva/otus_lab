@@ -76,7 +76,7 @@ interface Ethernet0/0
  switchport mode trunk
 end
 ```
-2. Manually configured trung interface e0/2 (S2);
+2. Manually configured trunk interface e0/2 (S2);
 ```
 interface Ethernet0/2
  description link to S1
