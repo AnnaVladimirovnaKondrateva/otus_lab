@@ -69,7 +69,7 @@ VLAN Name                             Status    Ports
 ```
 
 ###  Part 3: Configuring Trunk between the switches
-1. Manually configured trung interface e0/0 (S1);
+1. Manually configured trunk interface e0/0 (S1);
 ```
 interface Ethernet0/0
  description link to S2
@@ -92,8 +92,8 @@ end
 S1#sh int tr
 
 Port        Mode             Encapsulation  Status        Native vlan
-Et0/0       on               802.1q         trunking      1
-Et0/2       on               802.1q         trunking      1
+Et0/0       on               802.1q         trunking      8
+Et0/2       on               802.1q         trunking      8
 
 Port        Vlans allowed on trunk
 Et0/0       1-4094
@@ -126,7 +126,7 @@ interface Ethernet0/0.8
 end
 ```
 
-###  Part 4: Verifyed inter-VLAN routing 
+###  Part 5: Verifyed inter-VLAN routing 
 1. test from VPC4 to its default gateway;
 ```
 VPCS> ip 192.168.3.3 255.255.255.0 192.168.3.1
