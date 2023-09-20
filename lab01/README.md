@@ -17,6 +17,7 @@ Addresssing and VLAN Table
 |-----------------:|:---------------|-------------------------:|:--------------------|:-------------:|-----------------|-----------------|
 | R1   | e0/0.3 | 192.168.3.1    | 255.255.255.0 |    |  |
 | R1   | e0/0.4 | 192.168.4.1    | 255.255.255.0 |   |  |
+| R1   | e0/0.8 |     |  |   |8 |Native
 | S1   | Vl3| 192.168.3.11    | 255.255.255.0 |192.168.3.1   | 3 |Management|
 | S2   | Vl3| 192.168.3.12    | 255.255.255.0 |192.168.3.1   | 3 |Management|
 | VPC4   | Vl3| 192.168.3.3    | 255.255.255.0 |192.168.3.1   | 3 |Management|
@@ -73,6 +74,7 @@ VLAN Name                             Status    Ports
 interface Ethernet0/0
  description link to S2
  switchport trunk encapsulation dot1q
+ switchport trunk native vlan 8
  switchport mode trunk
 end
 ```
@@ -81,6 +83,7 @@ end
 interface Ethernet0/2
  description link to S1
  switchport trunk encapsulation dot1q
+ switchport trunk native vlan 8
  switchport mode trunk
 end
 ```
@@ -114,6 +117,15 @@ Ethernet0/0.3              192.168.3.1     YES NVRAM  up                    up
 Ethernet0/0.4              192.168.4.1     YES NVRAM  up                    up
 Ethernet0/0.8              unassigned      YES unset  up                    up
 ```
+```
+R1#sh run int Ethernet0/0.8
+
+interface Ethernet0/0.8
+ description subint for vl 8
+ encapsulation dot1Q 8 native
+end
+```
+
 ###  Part 4: Verifyed inter-VLAN routing 
 1. test from VPC4 to its default gateway;
 ```
