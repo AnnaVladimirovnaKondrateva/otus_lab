@@ -15,9 +15,9 @@ Password:
 S2#sh run
 Building configuration...
 
-Current configuration : 1245 bytes
+Current configuration : 1277 bytes
 !
-! Last configuration change at 14:57:55 UTC Tue Sep 12 2023
+! Last configuration change at 12:30:37 UTC Wed Sep 20 2023
 !
 version 15.2
 service timestamps debug datetime msec
@@ -76,6 +76,7 @@ interface Ethernet0/1
 interface Ethernet0/2
  description link to S1
  switchport trunk encapsulation dot1q
+ switchport trunk native vlan 8
  switchport mode trunk
 !
 interface Ethernet0/3
@@ -115,5 +116,3 @@ line vty 0 4
 !
 !
 end
-
-S2#

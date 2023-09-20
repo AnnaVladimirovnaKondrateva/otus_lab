@@ -12,7 +12,10 @@ Password:
 R1#sh run
 Building configuration...
 
-Current configuration : 1325 bytes
+
+Current configuration : 1417 bytes
+!
+! Last configuration change at 12:15:53 UTC Wed Sep 20 2023
 !
 version 15.4
 service timestamps debug datetime msec
@@ -90,6 +93,7 @@ interface Ethernet0/0.4
 !
 interface Ethernet0/0.8
  description subint for vl 8
+ encapsulation dot1Q 8 native
 !
 interface Ethernet0/1
  no ip address
@@ -138,5 +142,3 @@ line vty 0 4
 !
 !
 end
-
-R1#
