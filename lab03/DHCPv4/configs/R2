@@ -1,0 +1,122 @@
+R2#sh run
+Building configuration...
+
+Current configuration : 1214 bytes
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$Y.4o$uRsIlVnfr1urKkLMAebOp/
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ ip address 10.0.0.2 255.255.255.252
+!
+interface Ethernet0/1
+ description Subnet C
+ ip address 192.168.1.129 255.255.255.192
+ ip helper-address 10.0.0.1
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 Ethernet0/0
+ip route 0.0.0.0 0.0.0.0 10.0.0.1
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+banner motd ^C
+***************************************
+UNAUTORISED ACCESS IS PROHIBITED!
+***************************************
+^C
+!
+line con 0
+ password 7 01100F175804
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password 7 01100F175804
+ login
+ transport input all
+!
+!
+end
+
+R2#
