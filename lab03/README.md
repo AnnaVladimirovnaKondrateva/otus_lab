@@ -115,7 +115,7 @@ R1#
 R1#conf t
 R1(config)#int e0/0.1000
 R1(config-subif)#encapsulation dot1Q 1000 native
-R1(config-subif)#
+R1(config-subif)#^Z
 
 
 R1#sh ip int brief
@@ -252,7 +252,7 @@ interface Ethernet0/3
  shutdown
 !
 ```
-d. all unused ports on SW4 was administratively deactivated. 
+e. all unused ports on SW4 was administratively deactivated. 
 ```
 SW4#sh int desc
 Interface                      Status         Protocol Description
@@ -446,8 +446,8 @@ DDORA IP 192.168.1.134/26
 
 VPCS> sh ip all
 
-NAME   IP/MASK              GATEWAY           MAC                DNS
-VPCS1  192.168.1.134/26     0.0.0.0           00:50:79:66:68:05
+NAME   IP/MASK              GATEWAY            MAC                DNS
+VPCS1  192.168.1.134/26     192.168.1.129      00:50:79:66:68:05
 ```
 b. SW3 availability was checked
 ```
