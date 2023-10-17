@@ -74,7 +74,7 @@ R1(config)#service password-encryption
 R1(config)#banner motd #
 Enter TEXT message.  End with the character '#'.
 ***************************************
-UNAUTORISED ACCESS IS PROHIBITED!
+UNAUTHORISED ACCESS IS PROHIBITED!
 ***************************************
 #
 R1(config)#^Z
