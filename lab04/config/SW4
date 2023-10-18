@@ -1,0 +1,96 @@
+SW4#sh run
+Building configuration...
+
+Current configuration : 1029 bytes
+!
+! Last configuration change at 12:25:19 UTC Mon Oct 16 2023
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname SW4
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$cj7/$PPBjPodEtYjvjp7cbnMdQ1
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+!
+interface Ethernet0/1
+!
+interface Ethernet0/2
+ shutdown
+!
+interface Ethernet0/3
+ shutdown
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner motd ^C
+**********************************************
+UNAUTHORISED ACCESS IS PROHIBITED
+**********************************************
+^C
+!
+line con 0
+ password 7 01100F175804
+ logging synchronous
+ login
+line aux 0
+line vty 0 4
+ password 7 05080F1C2243
+ login
+ transport input all
+!
+!
+end
+
+SW4#
