@@ -47,7 +47,7 @@
 | Чокурдах  |mgmt | Vlan 99    | 10.1.100.0 |255.255.255.0|10.1.100.1|
 
 
-1. R28 настроен в соответствии с таблицей маршрутизации. Настроены подынтерфейсы для Vlan 60 и Vlan 50  и Vlan управлени 
+1. R28 настроен в соответствии с таблицей маршрутизации. Настроены подынтерфейсы для Vlan 60 и Vlan 50  и Vlan управления 
 ```
 interface Loopback0
  ip address 10.5.0.28 255.255.255.255
@@ -264,8 +264,8 @@ VPCS> ping 10.3.0.26
 VPCS> trace 10.3.0.26
 trace to 10.3.0.26, 8 hops max, press Ctrl+C to stop
  1   192.168.60.1   0.358 ms  0.245 ms  0.224 ms
- 2   10.1.1.197   0.390 ms  0.348 ms  0.337 ms /Провайдер 1
- 3   *10.1.1.202   0.454 ms (ICMP type:3, code:3, Destination port unreachable)  * /Провайдер 2, порт e0/2
+ 2   10.1.1.197   0.390 ms  0.348 ms  0.337 ms /_Провайдер 1_
+ 3   *10.1.1.202   0.454 ms (ICMP type:3, code:3, Destination port unreachable)  * /_Провайдер 2, порт e0/2_
 
 ```
 11. Моделирую ситуацию недоступности Провайдера 1 (R28 int e0/1 shut). В этом случае для достижения Провайдера 2 понадобится 2 хопа (ping от VPC30), что говорит об автоматическом переключении маршрута по умолчанию.
@@ -281,7 +281,7 @@ PCS> ping 10.3.0.26
 VPCS> trace 10.3.0.26
 trace to 10.3.0.26, 8 hops max, press Ctrl+C to stop
  1   192.168.60.1   0.453 ms  0.311 ms  0.409 ms
- 2   *10.1.1.205   0.509 ms (ICMP type:3, code:3, Destination port unreachable)  * /Провайдер 2, порт e0/1
+ 2   *10.1.1.205   0.509 ms (ICMP type:3, code:3, Destination port unreachable)  * /_Провайдер 2, порт e0/1_
 
 ```
 ###  Часть 2: Настройка PBR
@@ -322,7 +322,7 @@ VPCS> ping 10.3.0.25
 VPCS> trace 10.3.0.25
 trace to 10.3.0.25, 8 hops max, press Ctrl+C to stop
  1   192.168.50.1   0.465 ms  0.283 ms  0.250 ms
- 2   *10.1.1.197   0.375 ms (ICMP type:3, code:3, Destination port unreachable)  */Провайдер 1 e0/3
+ 2   *10.1.1.197   0.375 ms (ICMP type:3, code:3, Destination port unreachable)  */ _Провайдер 1 e0/3_
 ```
 VPC31
 ```
@@ -337,8 +337,8 @@ VPCS> ping 10.3.0.25
 VPCS> trace 10.3.0.25
 trace to 10.3.0.25, 8 hops max, press Ctrl+C to stop
  1   192.168.60.1   0.425 ms  0.297 ms  0.221 ms
- 2   10.1.1.205   0.388 ms  0.329 ms  0.306 ms /Провайдер 2
- 3   *10.1.1.201   0.478 ms (ICMP type:3, code:3, Destination port unreachable) /Провайдер 1 e0/2
+ 2   10.1.1.205   0.388 ms  0.329 ms  0.306 ms / _Провайдер 2_
+ 3   *10.1.1.201   0.478 ms (ICMP type:3, code:3, Destination port unreachable) / _Провайдер 1 e0/2_
 
 ```
 Статистика на R28 также свидетельствует о том, что route-map отработала
