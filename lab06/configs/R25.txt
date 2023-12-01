@@ -1,0 +1,130 @@
+R25#
+R25#sh run
+Building configuration...
+
+Current configuration : 1353 bytes
+!
+! Last configuration change at 10:48:22 UTC Wed Nov 29 2023
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R25
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.3.0.25 255.255.255.255
+!
+interface Ethernet0/0
+ ip address 10.1.1.158 255.255.255.252
+!
+interface Ethernet0/1
+ ip address 10.1.1.189 255.255.255.252
+!
+interface Ethernet0/2
+ ip address 10.1.1.201 255.255.255.252
+!
+interface Ethernet0/3
+ ip address 10.1.1.197 255.255.255.252
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.1.1.202
+ip route 192.168.50.0 255.255.255.0 10.1.1.198 name to_R28_e0/1
+ip route 192.168.60.0 255.255.255.0 10.1.1.198 name to_R28_e0/1
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
