@@ -1,0 +1,135 @@
+Protocol [ip]:
+Target IP address:
+% Bad IP address
+R19#
+R19#QQ^@
+Translating "QQ"
+
+Translating "QQ"
+
+% Bad IP address or host name
+% Unknown command or computer name, or unable to find computer address
+R19#sh run
+Building configuration...
+
+Current configuration : 1186 bytes
+!
+! Last configuration change at 14:49:24 UTC Wed Dec 13 2023
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R19
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.1.0.19 255.255.255.255
+!
+interface Ethernet0/0
+ ip address 10.1.1.138 255.255.255.252
+!
+interface Ethernet0/1
+ no ip address
+ shutdown
+!
+interface Ethernet0/2
+ no ip address
+ shutdown
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+router ospf 1
+ area 101 stub
+ network 10.1.1.0 0.0.0.255 area 101
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+banner motd ^C
+***********************************************
+UNAUTHORISED ACCESS IS PROHIBITED!
+***********************************************
+^C
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
+R19#
