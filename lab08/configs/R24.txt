@@ -1,9 +1,10 @@
+R24>ena
 R24#sh run
 Building configuration...
 
-Current configuration : 1297 bytes
+Current configuration : 1379 bytes
 !
-! Last configuration change at 14:32:29 UTC Thu Dec 21 2023
+! Last configuration change at 13:48:28 UTC Wed Dec 27 2023
 !
 version 15.4
 service timestamps debug datetime msec
@@ -37,7 +38,8 @@ mmi snmp-timeout 180
 !
 !
 ip cef
-no ipv6 cef
+ipv6 unicast-routing
+ipv6 cef
 !
 multilink bundle-name authenticated
 !
@@ -74,10 +76,14 @@ interface Ethernet0/0
 interface Ethernet0/1
  ip address 10.1.1.165 255.255.255.252
  ip router isis
+ ipv6 enable
+ ipv6 router isis
 !
 interface Ethernet0/2
  ip address 10.1.1.162 255.255.255.252
  ip router isis
+ ipv6 enable
+ ipv6 router isis
 !
 interface Ethernet0/3
  ip address 10.1.1.173 255.255.255.252
