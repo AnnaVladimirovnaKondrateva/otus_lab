@@ -168,5 +168,43 @@ i L2     10.3.0.26/32 [115/10] via 10.1.1.166, 18:49:04, Ethernet0/1
 R24#
 
 ```
+Для версии ipv6 произвела следующие настройки на всех причастных коммутаторах
+```
+R23#conf t
+R23(config)#ipv6 unicast-routing
+R23(config)#int range e0/1-2
+R23(config-if-range)#ipv6 enable
+R23(config-if-range)#ipv6 router isis
+R23(config-if-range)#^Z
+R23#
+
+
+R24#conf t
+R24(config)#ipv6 unicast-routing
+R24(config)#int range e0/1-2
+R24(config-if-range)#ipv6 enable
+R24(config-if-range)#ipv6 router isis
+R24(config-if-range)#^Z
+R24#
+
+
+R25#conf t
+R25(config)#ipv6 unicast-routing
+R25(config)#int range e0/1-2
+R25(config-if-range)#ipv6 enable
+R25(config-if-range)#ipv6 router isis
+R25(config-if-range)#^Z
+R25#
+
+R26(config)#ipv6 unicast-routing
+R26(config)#int e0/0
+R26(config-if)#ipv6 ena
+R26(config-if)#ipv6 router isis
+R26(config-if)#int e0/2
+R26(config-if)#ipv6 ena
+R26(config-if)#ipv6 router isis
+R26(config-if)#^Z
+
+```
 Файлы конфигурации можно посмотреть [здесь](configs/).
 ###  The End
