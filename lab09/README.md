@@ -172,7 +172,32 @@ R18(config)#^Z
   !
 
 ```
-И на соответствующих интерфейсах R17.
+На соответствующих интерфейсах R17 произвела настройки суммирования:
+```
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 1
+  !
+   af-interface Ethernet0/3
+   summary-address 192.168.0.0 255.255.0.0
+  exit-af-interface
+  !
+  af-interface Ethernet0/1
+   summary-address 192.168.0.0 255.255.0.0
+  exit-af-interface
+  !
+ address-family ipv6 unicast autonomous-system 1
+  !
+  af-interface Ethernet0/3
+   summary-address 2001:DB8:CAFE::/64
+  exit-af-interface
+  !
+  af-interface Ethernet0/1
+   summary-address 2001:DB8:CAFE::/64
+  exit-af-interface
+  !
+
+```.
 В таблице маршрутизации R18 зафиксировала изменения. Например
 было:
 ```
@@ -204,14 +229,6 @@ R18(config-router)#add ipv6 uni auto 1
 R18(config-router-af)#topology base
 R18(config-router-af-topology)#redistribute stat
 R18(config-router-af-topology)#^Z
-```
-Убедилась, что маршрут по умолчанию появился на остальных роутерах. Пример R16
-```
-R16#sh ip rout
-
-Gateway of last resort is 10.1.1.225 to network 0.0.0.0
-
-D*    0.0.0.0/0 [90/1536000] via 10.1.1.225, 00:08:29, Ethernet0/1
 ```
 На R16 e0/3 настроила фильтрацию маршрутов в сторону R32
 ```
