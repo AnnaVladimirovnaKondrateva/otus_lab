@@ -1,0 +1,160 @@
+R18#sh run
+Building configuration...
+
+Current configuration : 2001 bytes
+!
+! Last configuration change at 14:44:30 UTC Wed Jan 3 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R18
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.2.0.18 255.255.255.255
+!
+interface Ethernet0/0
+ ip address 10.1.1.225 255.255.255.252
+ ipv6 address FE80::18 link-local
+ ipv6 address 2001:DB8:CAFE:A002::1/64
+!
+interface Ethernet0/1
+ ip address 10.1.1.229 255.255.255.252
+ ipv6 address FE80::18 link-local
+ ipv6 address 2001:DB8:CAFE:A001::2/64
+!
+interface Ethernet0/2
+ ip address 10.1.1.174 255.255.255.252
+ ipv6 address FE80::18 link-local
+ ipv6 address 2001:DB8:CAFE:2::1/64
+!
+interface Ethernet0/3
+ ip address 10.1.1.214 255.255.255.252
+ ipv6 address FE80::18 link-local
+!
+!
+router eigrp NG
+ !
+ address-family ipv4 unicast autonomous-system 1
+  !
+  af-interface Ethernet0/2
+   passive-interface
+  exit-af-interface
+  !
+  af-interface Ethernet0/3
+   passive-interface
+  exit-af-interface
+  !
+  topology base
+   redistribute static
+  exit-af-topology
+  network 0.0.0.0
+  eigrp router-id 18.18.18.18
+ exit-address-family
+ !
+ address-family ipv6 unicast autonomous-system 1
+  !
+  af-interface Ethernet0/2
+   passive-interface
+  exit-af-interface
+  !
+  af-interface Ethernet0/3
+   passive-interface
+  exit-af-interface
+  !
+  topology base
+   redistribute static
+  exit-af-topology
+  eigrp router-id 18.18.18.18
+ exit-address-family
+!
+!
+router eigrp ng
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 Ethernet0/2
+!
+ipv6 route ::/0 Ethernet0/2
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
+R18#
