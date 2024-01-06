@@ -9,3 +9,4 @@
 7. [OSPF](lab07/).
 8. [IS-IS](lab08/).
 9. [EIGRP](lab09/).
+10. [EIGRP](lab10/).
