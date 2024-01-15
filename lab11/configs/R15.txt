@@ -1,0 +1,163 @@
+R15#sh run
+Building configuration...
+
+Current configuration : 2177 bytes
+!
+! Last configuration change at 14:03:33 UTC Mon Jan 15 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R15
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.1.0.15 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Loopback1
+ ip address 100.1.0.15 255.255.255.255
+ ip ospf 1 area 0
+!
+interface Ethernet0/0
+ ip address 10.1.1.130 255.255.255.252
+ ip ospf 1 area 10
+!
+interface Ethernet0/1
+ ip address 10.1.1.226 255.255.255.252
+ ip ospf 1 area 10
+!
+interface Ethernet0/2
+ ip address 100.7.0.2 255.255.255.252
+ ip ospf 1 area 0
+!
+interface Ethernet0/3
+ ip address 10.1.1.250 255.255.255.252
+ ip ospf 1 area 102
+!
+interface Ethernet1/0
+ ip address 10.1.1.10 255.255.255.252
+ ip ospf 1 area 0
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+router ospf 1
+ area 102 filter-list prefix Area101 in
+ passive-interface default
+ no passive-interface Ethernet0/0
+ no passive-interface Ethernet0/1
+ no passive-interface Ethernet0/2
+ no passive-interface Ethernet0/3
+ no passive-interface Ethernet1/0
+!
+router bgp 1001
+ bgp log-neighbor-changes
+ network 100.1.0.0 mask 255.255.0.0
+ neighbor 100.1.0.14 remote-as 1001
+ neighbor 100.1.0.14 update-source Loopback1
+ neighbor 100.1.0.14 next-hop-self
+ neighbor 100.7.0.1 remote-as 301
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 100.1.0.0 255.255.0.0 Null0
+!
+!
+ip prefix-list Area101 seq 5 deny 10.1.1.136/30
+ip prefix-list Area101 seq 10 permit 0.0.0.0/0 le 32
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+banner motd ^C
+**********************************************
+UNATHORISED ACCESS IS PROHIBITED
+**********************************************
+^C
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input all
+!
+!
+end
+
+R15#
