@@ -1,9 +1,9 @@
 R22#sh run
 Building configuration...
 
-Current configuration : 1568 bytes
+Current configuration : 1616 bytes
 !
-! Last configuration change at 16:03:11 UTC Sat Jan 6 2024
+! Last configuration change at 11:33:51 UTC Fri Jan 19 2024
 !
 version 15.4
 service timestamps debug datetime msec
@@ -79,8 +79,7 @@ interface Ethernet0/1
  ip address 100.7.0.6 255.255.255.252
 !
 interface Ethernet0/2
- no ip address
- shutdown
+ ip address 100.6.0.5 255.255.255.252
 !
 interface Ethernet0/3
  no ip address
@@ -106,6 +105,7 @@ router bgp 101
  bgp log-neighbor-changes
  network 100.6.0.0 mask 255.255.0.0
  neighbor 100.6.0.2 remote-as 1001
+ neighbor 100.6.0.6 remote-as 520
  neighbor 100.7.0.5 remote-as 301
 !
 ip forward-protocol nd

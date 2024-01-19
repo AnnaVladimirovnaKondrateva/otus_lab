@@ -1,9 +1,9 @@
 R18#sh run
 Building configuration...
 
-Current configuration : 2246 bytes
+Current configuration : 2335 bytes
 !
-! Last configuration change at 15:43:47 UTC Sat Jan 6 2024
+! Last configuration change at 19:49:20 UTC Fri Jan 19 2024
 !
 version 15.4
 service timestamps debug datetime msec
@@ -132,9 +132,11 @@ router eigrp ng
 !
 router bgp 2042
  bgp log-neighbor-changes
+ network 10.2.0.0 mask 255.255.0.0
  network 100.2.0.0 mask 255.255.0.0
  neighbor 100.3.0.5 remote-as 520
  neighbor 100.3.0.9 remote-as 520
+ maximum-paths 2
 !
 ip forward-protocol nd
 !
@@ -142,6 +144,7 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 ip route 0.0.0.0 0.0.0.0 Ethernet0/2
+ip route 10.2.0.0 255.255.0.0 Null0
 ip route 100.2.0.0 255.255.0.0 Null0
 !
 ipv6 route ::/0 Ethernet0/2

@@ -1,3 +1,6 @@
+R21#wr mem
+Building configuration...
+[OK]
 R21#sh run
 Building configuration...
 

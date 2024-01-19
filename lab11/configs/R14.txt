@@ -1,9 +1,9 @@
 R14#sh run
 Building configuration...
 
-Current configuration : 2123 bytes
+Current configuration : 2142 bytes
 !
-! Last configuration change at 14:01:23 UTC Mon Jan 15 2024
+! Last configuration change at 11:54:50 UTC Thu Jan 18 2024
 !
 version 15.4
 service timestamps debug datetime msec
@@ -84,7 +84,6 @@ interface Ethernet0/1
 !
 interface Ethernet0/2
  ip address 100.6.0.2 255.255.255.252
- ip ospf 1 area 0
 !
 interface Ethernet0/3
  ip address 10.1.1.137 255.255.255.252
@@ -111,13 +110,13 @@ router ospf 1
  passive-interface default
  no passive-interface Ethernet0/0
  no passive-interface Ethernet0/1
- no passive-interface Ethernet0/2
  no passive-interface Ethernet0/3
  no passive-interface Ethernet1/0
  default-information originate
 !
 router bgp 1001
  bgp log-neighbor-changes
+ network 10.1.0.0 mask 255.255.0.0
  network 100.1.0.0 mask 255.255.0.0
  neighbor 100.1.0.15 remote-as 1001
  neighbor 100.1.0.15 update-source Loopback1
@@ -130,6 +129,7 @@ ip forward-protocol nd
 no ip http server
 no ip http secure-server
 ip route 0.0.0.0 0.0.0.0 Null0
+ip route 10.1.0.0 255.255.0.0 Null0
 ip route 100.1.0.0 255.255.0.0 Null0
 !
 !
