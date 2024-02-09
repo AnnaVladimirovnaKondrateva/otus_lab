@@ -1,0 +1,165 @@
+R12#sh run
+Building configuration...
+
+Current configuration : 2155 bytes
+!
+! Last configuration change at 13:27:30 UTC Fri Feb 2 2024
+! NVRAM config last updated at 14:09:19 UTC Fri Feb 2 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R12
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+ip dhcp pool Vl10-POOL-MSK
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+!
+!
+!
+no ip domain lookup
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.1.0.12 255.255.255.255
+ ip ospf 1 area 10
+!
+interface Ethernet0/0
+ ip address 10.1.1.33 255.255.255.252
+ ip ospf 1 area 10
+!
+interface Ethernet0/0.10
+ description Subnet Msk10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ ip ospf 1 area 10
+!
+interface Ethernet0/0.99
+ encapsulation dot1Q 99
+ ip address 10.1.100.1 255.255.255.0
+ ip ospf 1 area 10
+!
+interface Ethernet0/1
+ ip address 10.1.1.21 255.255.255.252
+ ip ospf 1 area 10
+!
+interface Ethernet0/2
+ ip address 10.1.1.193 255.255.255.252
+ ip ospf 1 area 10
+!
+interface Ethernet0/3
+ ip address 10.1.1.225 255.255.255.252
+ ip ospf 1 area 10
+!
+interface Ethernet1/0
+ ip address 10.1.1.13 255.255.255.252
+ ip ospf 1 area 10
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+router ospf 1
+ passive-interface default
+ no passive-interface Ethernet0/0
+ no passive-interface Ethernet0/1
+ no passive-interface Ethernet0/2
+ no passive-interface Ethernet0/3
+ no passive-interface Ethernet1/0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 Ethernet0/2
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+banner motd ^C
+***********************************************
+UNAUTHORISED ACCESS PROHIBITED!
+***********************************************
+^C
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input all
+!
+ntp master 1
+ntp update-calendar
+!
+end
+
+R12#
