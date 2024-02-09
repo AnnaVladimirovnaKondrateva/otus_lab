@@ -176,8 +176,9 @@ R12(dhcp-config)#default-router 192.168.10.1
 R12(dhcp-config)#end
 R12#
 ```
-```
+
 Создание пула на R13
+```
 R13#conf t
 Enter configuration commands, one per line.  End with CNTL/Z.
 R13(config)#ip dhcp pool VL20-POOL-MSK
@@ -237,7 +238,7 @@ R13#sh run | sec ntp
 ntp master 1
 ntp update-calendar
 ```
-Проверка
+Проверка NTP R13
 ```
 R13#sh ntp stat
 Clock is synchronized, stratum 1, reference is .LOCL.
