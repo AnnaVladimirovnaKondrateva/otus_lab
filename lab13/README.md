@@ -300,10 +300,7 @@ R15(config)#access-list 15 permit 192.168.20.0 0.0.0.255
 ```
 Настроила преобразование адресов
 ```
-R14(config)#access-list 14 permit 192.168.10.0 0.0.0.255
-
-
-R14(config)#access-list 14 permit 192.168.20.0 0.0.0.255
+ip nat inside source list 15 interface Ethernet0/2 overl
 
 ```
 Настроила интерфейсы
