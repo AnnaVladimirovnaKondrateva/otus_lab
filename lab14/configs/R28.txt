@@ -1,0 +1,233 @@
+R28#sh run
+Building configuration...
+
+Current configuration : 3692 bytes
+!
+! Last configuration change at 08:50:50 UTC Sun Feb 25 2024
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R28
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+ip dhcp excluded-address 192.168.50.1
+ip dhcp excluded-address 192.168.60.1
+!
+ip dhcp pool VLAN50
+ network 192.168.50.0 255.255.255.0
+ default-router 192.168.50.1
+!
+ip dhcp pool VLAN60
+ network 192.168.60.0 255.255.255.0
+ default-router 192.168.60.1
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+track 1 ip sla 1 reachability
+ delay down 1 up 1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.5.0.28 255.255.255.255
+!
+interface Loopback1
+ ip address 100.5.0.28 255.255.255.255
+!
+interface Tunnel15
+ ip address 10.15.0.28 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp map 10.15.0.1 100.1.0.15
+ ip nhrp network-id 15
+ ip nhrp nhs 100.1.0.15
+ ip nhrp nhs 10.15.0.1
+ ip tcp adjust-mss 1360
+ ip ospf network non-broadcast
+ ip ospf priority 0
+ tunnel source 100.5.0.28
+ tunnel mode gre multipoint
+!
+interface Tunnel20
+ ip address 10.20.20.3 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp map 10.20.20.1 100.1.0.14
+ ip nhrp network-id 20
+ ip nhrp holdtime 600
+ ip nhrp nhs 100.1.0.14
+ ip nhrp nhs 10.20.20.1
+ ip tcp adjust-mss 1360
+ shutdown
+ tunnel source Loopback1
+ tunnel mode gre multipoint
+!
+interface Ethernet0/0
+ ip address 10.1.1.206 255.255.255.252
+ ip nat outside
+ ip virtual-reassembly in
+!
+interface Ethernet0/1
+ ip address 10.1.1.198 255.255.255.252
+ ip nat outside
+ ip virtual-reassembly in
+!
+interface Ethernet0/2
+ no ip address
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface Ethernet0/2.50
+ encapsulation dot1Q 50
+ ip address 192.168.50.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface Ethernet0/2.60
+ encapsulation dot1Q 60
+ ip address 192.168.60.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+ ip policy route-map 10
+!
+interface Ethernet0/2.99
+ description mgmt
+ encapsulation dot1Q 99
+ ip address 10.1.100.1 255.255.255.0
+!
+interface Ethernet0/3
+ no ip address
+ shutdown
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+!
+router eigrp 20
+ network 10.20.20.0 0.0.0.255
+ shutdown
+!
+!
+router eigrp 15
+ network 10.15.0.0 0.0.0.255
+ network 192.168.50.0
+ shutdown
+!
+router ospf 15
+ network 10.15.0.0 0.0.0.255 area 0
+ network 192.168.50.0 0.0.0.255 area 0
+ network 192.168.60.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source static 192.168.50.3 100.5.1.28
+ip nat inside source static 192.168.60.3 100.5.1.29
+ip route 0.0.0.0 0.0.0.0 10.1.1.197 50 track 1
+ip route 0.0.0.0 0.0.0.0 10.3.0.25
+ip route 0.0.0.0 0.0.0.0 10.1.1.197
+ip route 0.0.0.0 0.0.0.0 10.1.1.205 100
+ip route 10.1.0.0 255.255.0.0 10.20.20.1
+ip route 10.4.0.0 255.255.0.0 10.20.20.2
+ip route 192.168.10.0 255.255.255.0 10.20.20.1
+ip route 192.168.10.0 255.255.255.0 Tunnel15
+!
+ip access-list standard VLAN60
+ permit 192.168.60.0 0.0.0.255
+!
+ip sla 1
+ icmp-echo 10.1.1.197 source-ip 10.1.1.198
+ip sla schedule 1 life forever start-time now
+!
+route-map 10 permit 10
+ match ip address 10
+ set ip next-hop 10.1.1.205
+!
+!
+access-list 10 permit 192.168.60.0 0.0.0.255
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
+
+R28#
