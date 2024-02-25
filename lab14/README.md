@@ -18,16 +18,7 @@
 
  Интерфейсы роутеров настроены  в предыдущих работах.
  
- R15
- ```
-R15#sh ip int brie
-Interface                  IP-Address      OK? Method Status                Protocol
-....
-Loopback1                  100.1.0.15      YES NVRAM  up                    up
-...
-R15#
 
- ``` 
 Настройка GRE нуннеля на R15
 ```
 R15#conf t
