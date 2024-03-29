@@ -1,9 +1,9 @@
 R14#sh run
 Building configuration...
 
-Current configuration : 2142 bytes
+Current configuration : 3508 bytes
 !
-! Last configuration change at 11:54:50 UTC Thu Jan 18 2024
+! No configuration change since last restart
 !
 version 15.4
 service timestamps debug datetime msec
@@ -74,23 +74,50 @@ interface Loopback1
  ip address 100.1.0.14 255.255.255.255
  ip ospf 1 area 0
 !
+interface Tunnel20
+ ip address 10.20.20.1 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ no ip next-hop-self eigrp 20
+ no ip split-horizon eigrp 20
+ ip nhrp map multicast dynamic
+ ip nhrp network-id 20
+ ip nhrp holdtime 600
+ ip tcp adjust-mss 1360
+ ip ospf network broadcast
+ ip ospf priority 255
+ shutdown
+ tunnel source Loopback1
+ tunnel mode gre multipoint
+!
 interface Ethernet0/0
  ip address 10.1.1.194 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 10
 !
 interface Ethernet0/1
  ip address 10.1.1.2 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 10
 !
 interface Ethernet0/2
- ip address 100.6.0.2 255.255.255.252
+ ip address 100.6.0.2 255.255.255.252 secondary
+ ip address 100.1.1.14 255.255.255.0
+ ip nat outside
+ ip virtual-reassembly in
 !
 interface Ethernet0/3
  ip address 10.1.1.137 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 101
 !
 interface Ethernet1/0
  ip address 10.1.1.9 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
  ip ospf 1 area 0
 !
 interface Ethernet1/1
@@ -105,6 +132,11 @@ interface Ethernet1/3
  no ip address
  shutdown
 !
+!
+router eigrp 20
+ network 10.20.20.0 0.0.0.255
+ shutdown
+!
 router ospf 1
  area 101 stub no-summary
  passive-interface default
@@ -114,24 +146,42 @@ router ospf 1
  no passive-interface Ethernet1/0
  default-information originate
 !
+router ospf 20
+ shutdown
+ network 10.1.0.0 0.0.255.255 area 0
+ network 10.20.20.0 0.0.0.255 area 0
+!
 router bgp 1001
  bgp log-neighbor-changes
- network 10.1.0.0 mask 255.255.0.0
  network 100.1.0.0 mask 255.255.0.0
  neighbor 100.1.0.15 remote-as 1001
  neighbor 100.1.0.15 update-source Loopback1
  neighbor 100.1.0.15 next-hop-self
  neighbor 100.6.0.1 remote-as 101
+ neighbor 100.6.0.1 soft-reconfiguration inbound
+ neighbor 100.6.0.1 route-map Prepend out
 !
 ip forward-protocol nd
 !
+ip as-path access-list 1 permit ^$
+ip as-path access-list 1 permit ^S
 !
 no ip http server
 no ip http secure-server
-ip route 0.0.0.0 0.0.0.0 Null0
+ip nat inside source list 14 interface Ethernet0/2 overload
+ip nat inside source static tcp 10.1.0.19 23 100.1.1.19 23 extendable
+ip nat inside source static 10.1.0.19 100.1.1.19
+ip nat inside source static 10.1.0.20 100.1.1.20
 ip route 10.1.0.0 255.255.0.0 Null0
+ip route 10.4.0.0 255.255.0.0 10.20.20.2
+ip route 10.5.0.0 255.255.0.0 10.20.20.3
 ip route 100.1.0.0 255.255.0.0 Null0
+ip route 192.168.50.0 255.255.255.0 10.20.20.3
+ip route 192.168.60.0 255.255.255.0 10.20.20.3
 !
+!
+route-map Prepend permit 10
+ set as-path prepend 1001 1001 1001
 !
 !
 !
@@ -156,7 +206,7 @@ line vty 0 4
  login
  transport input all
 !
+ntp server 10.1.0.12
+ntp server 10.1.0.13
 !
 end
-
-R14#
